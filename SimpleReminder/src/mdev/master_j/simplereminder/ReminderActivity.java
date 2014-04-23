@@ -1,10 +1,12 @@
 package mdev.master_j.simplereminder;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -38,6 +40,8 @@ public class ReminderActivity extends ActionBarActivity {
 	private static final String KEY_SAVED_TIME_MS = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TIME_MS";
 	private static final String KEY_SAVED_TITLE = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TITLE";
 	private static final String KEY_SAVED_DESCRIPTION = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_DESCRIPTION";
+
+	private CustomAdapter listAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +78,13 @@ public class ReminderActivity extends ActionBarActivity {
 				formDescription = "";
 		}
 
-		CustomAdapter adapter = new CustomAdapter(this);
+		listAdapter = new CustomAdapter(this);
 		ListView lV = (ListView) findViewById(R.id.listView1);
-		adapter.add("");
-		adapter.add("");
-		adapter.add("");
-		adapter.add("");
-		lV.setAdapter(adapter);
+		listAdapter.add("");
+		listAdapter.add("");
+		listAdapter.add("");
+		listAdapter.add("");
+		lV.setAdapter(listAdapter);
 		lV.setOnItemClickListener(new OnFormItemClickListener());
 	}
 
@@ -158,7 +162,7 @@ public class ReminderActivity extends ActionBarActivity {
 
 		formYear = calendar.get(Calendar.YEAR);
 		formMonth = calendar.get(Calendar.MONTH);
-		formMonth = calendar.get(Calendar.DAY_OF_MONTH);
+		formDay = calendar.get(Calendar.DAY_OF_MONTH);
 		formHour = calendar.get(Calendar.HOUR_OF_DAY);
 		formMinute = calendar.get(Calendar.MINUTE);
 	}
@@ -169,7 +173,7 @@ public class ReminderActivity extends ActionBarActivity {
 		formMonth = month;
 		formDay = day;
 
-		// TODO upd ui
+		listAdapter.notifyDataSetChanged();
 	}
 
 	void updateTime(int hour, int minute) {
@@ -177,7 +181,7 @@ public class ReminderActivity extends ActionBarActivity {
 		formHour = hour;
 		formMinute = minute;
 
-		// TODO upd ui
+		listAdapter.notifyDataSetChanged();
 	}
 
 	private class CustomAdapter extends ArrayAdapter<String> {
@@ -202,9 +206,38 @@ public class ReminderActivity extends ActionBarActivity {
 				break;
 			case ReminderActivity.INDEX_ITEM_DATE:
 				header.setText(R.string.label_date);
+				if (formDateSet) {
+					Calendar calendar = Calendar.getInstance();
+
+					calendar.set(Calendar.YEAR, formYear);
+					calendar.set(Calendar.MONTH, formYear);
+					calendar.set(Calendar.DAY_OF_MONTH, formYear);
+
+					SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+					String label = format.format(calendar.getTime());
+
+					footer.setText(label);
+				} else {
+					footer.setPaintFlags(Paint.LINEAR_TEXT_FLAG);
+					footer.setText(R.string.label_footer_not_set);
+				}
 				break;
 			case ReminderActivity.INDEX_ITEM_TIME:
 				header.setText(R.string.label_time);
+				if (formTimeSet) {
+					Calendar calendar = Calendar.getInstance();
+
+					calendar.set(Calendar.HOUR_OF_DAY, formHour);
+					calendar.set(Calendar.MINUTE, formMinute);
+
+					SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+					String label = format.format(calendar.getTime());
+
+					footer.setText(label);
+				} else {
+					footer.setPaintFlags(Paint.LINEAR_TEXT_FLAG);
+					footer.setText(R.string.label_footer_not_set);
+				}
 				break;
 			case ReminderActivity.INDEX_ITEM_DESCRIPTION:
 				header.setText(R.string.label_description);

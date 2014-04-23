@@ -9,5 +9,6 @@
     <string name="label_description">Description:</string>
     <string name="button_save">Save</string>
     
+    <string name="label_footer_not_set">not set yet</string>
 
 </resources>
