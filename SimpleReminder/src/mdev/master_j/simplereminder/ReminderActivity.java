@@ -31,7 +31,12 @@ public class ReminderActivity extends ActionBarActivity {
 	private int formHour;
 	private int formMinute;
 
+	private String formTitle = "";
+	private String formDescription = "";
+
 	private static final String KEY_SAVED_TIME_MS = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TIME_MS";
+	private static final String KEY_SAVED_TITLE = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TITLE";
+	private static final String KEY_SAVED_DESCRIPTION = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_DESCRIPTION";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,20 +45,32 @@ public class ReminderActivity extends ActionBarActivity {
 
 		if (savedInstanceState == null) {
 			SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+
 			long savedTime = preferences.getLong(KEY_SAVED_TIME_MS, 0L);
 			if (savedTime != 0L) {
 				Calendar calendar = Calendar.getInstance();
 
 				updateFormSavedDateAndTime(calendar);
 			}
+
+			formTitle = preferences.getString(KEY_SAVED_TITLE, "");
+			formDescription = preferences.getString(KEY_SAVED_DESCRIPTION, "");
 		} else {
-			long savedTime = savedInstanceState.getLong(KEY_SAVED_TIME_MS);
+			long savedTime = savedInstanceState.getLong(KEY_SAVED_TIME_MS, 0L);
 			if (savedTime != 0L) {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTimeInMillis(savedTime);
 
 				updateFormSavedDateAndTime(calendar);
 			}
+
+			formTitle = savedInstanceState.getString(KEY_SAVED_TITLE);
+			if (formTitle == null)
+				formTitle = "";
+
+			formDescription = savedInstanceState.getString(KEY_SAVED_DESCRIPTION);
+			if (formDescription == null)
+				formDescription = "";
 		}
 
 		CustomAdapter adapter = new CustomAdapter(this);
@@ -75,6 +92,8 @@ public class ReminderActivity extends ActionBarActivity {
 			long formTimeMillis = formCalendar.getTimeInMillis();
 
 			outState.putLong(KEY_SAVED_TIME_MS, formTimeMillis);
+			outState.putString(KEY_SAVED_TITLE, formTitle);
+			outState.putString(KEY_SAVED_DESCRIPTION, formDescription);
 		}
 	}
 
