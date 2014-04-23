@@ -2,5 +2,12 @@
 <resources>
 
     <string name="app_name">SimpleReminder</string>
+    
+    <string name="label_title">Title:</string>
+    <string name="label_date">Date:</string>
+    <string name="label_time">Time:</string>
+    <string name="label_description">Description:</string>
+    <string name="button_save">Save</string>
+    
 
 </resources>
