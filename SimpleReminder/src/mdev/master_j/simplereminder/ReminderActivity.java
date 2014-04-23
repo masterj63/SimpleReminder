@@ -2,6 +2,7 @@ package mdev.master_j.simplereminder;
 
 import java.util.Calendar;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -105,7 +106,8 @@ public class ReminderActivity extends ActionBarActivity {
 				// TODO title dialog
 				break;
 			case INDEX_ITEM_DATE:
-				// TODO date dialog
+				DialogFragment dialog = new DatePickerFragment();
+				dialog.show(getFragmentManager(), "");
 				break;
 			case INDEX_ITEM_TIME:
 				// TODO time dialog
@@ -160,7 +162,14 @@ public class ReminderActivity extends ActionBarActivity {
 		formMinute = calendar.get(Calendar.MINUTE);
 	}
 
-	class CustomAdapter extends ArrayAdapter<String> {
+	void updateDate(int year, int month, int day) {
+		formDateSet = true;
+		formYear = year;
+		formMonth = month;
+		formDay = day;
+	}
+
+	private class CustomAdapter extends ArrayAdapter<String> {
 		private final Context CONTEXT;
 
 		public CustomAdapter(Context context) {
@@ -193,5 +202,21 @@ public class ReminderActivity extends ActionBarActivity {
 
 			return rowView;
 		}
+	}
+
+	boolean getFormDateSet() {
+		return formDateSet;
+	}
+
+	int getFormYear() {
+		return formYear;
+	}
+
+	int getFormMonth() {
+		return formMonth;
+	}
+
+	int getFormDay() {
+		return formDay;
 	}
 }
