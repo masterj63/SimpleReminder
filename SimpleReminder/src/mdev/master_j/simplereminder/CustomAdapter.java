@@ -24,16 +24,16 @@ public class CustomAdapter extends ArrayAdapter<String> {
 		TextView footer = (TextView) rowView.findViewById(R.id.textview_footer);
 
 		switch (position) {
-		case 0:
+		case ReminderActivity.INDEX_ITEM_TITLE:
 			header.setText(R.string.label_title);
 			break;
-		case 1:
+		case ReminderActivity.INDEX_ITEM_DATE:
 			header.setText(R.string.label_date);
 			break;
-		case 2:
+		case ReminderActivity.INDEX_ITEM_TIME:
 			header.setText(R.string.label_time);
 			break;
-		case 3:
+		case ReminderActivity.INDEX_ITEM_DESCRIPTION:
 			header.setText(R.string.label_description);
 			break;
 		}
