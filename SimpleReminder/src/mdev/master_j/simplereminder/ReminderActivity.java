@@ -106,11 +106,12 @@ public class ReminderActivity extends ActionBarActivity {
 				// TODO title dialog
 				break;
 			case INDEX_ITEM_DATE:
-				DialogFragment dialog = new DatePickerFragment();
-				dialog.show(getFragmentManager(), "");
+				DialogFragment dateDialog = new DatePickerFragment();
+				dateDialog.show(getFragmentManager(), "");
 				break;
 			case INDEX_ITEM_TIME:
-				// TODO time dialog
+				DialogFragment timeDialog = new TimePickerFragment();
+				timeDialog.show(getFragmentManager(), "");
 				break;
 			case INDEX_ITEM_DESCRIPTION:
 				// TODO description dialog
@@ -167,6 +168,16 @@ public class ReminderActivity extends ActionBarActivity {
 		formYear = year;
 		formMonth = month;
 		formDay = day;
+
+		// TODO upd ui
+	}
+
+	void updateTime(int hour, int minute) {
+		formTimeSet = true;
+		formHour = hour;
+		formMinute = minute;
+
+		// TODO upd ui
 	}
 
 	private class CustomAdapter extends ArrayAdapter<String> {
@@ -219,4 +230,17 @@ public class ReminderActivity extends ActionBarActivity {
 	int getFormDay() {
 		return formDay;
 	}
+
+	boolean getFormTimeSet() {
+		return formTimeSet;
+	}
+
+	int getFormHour() {
+		return formHour;
+	}
+
+	int getFormMinute() {
+		return formMinute;
+	}
+
 }
