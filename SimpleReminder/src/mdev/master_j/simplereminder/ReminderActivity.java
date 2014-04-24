@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ReminderActivity extends ActionBarActivity {
 
@@ -176,7 +177,7 @@ public class ReminderActivity extends ActionBarActivity {
 	}
 
 	private boolean isFormInputCorrect() {
-		if (!formDateSet || !formTimeSet) {
+		if (!formDateSet || !formTimeSet || formTitle.length() == 0) {
 			return false;
 		}
 
@@ -234,7 +235,13 @@ public class ReminderActivity extends ActionBarActivity {
 	private class OnSaveButtonClickListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			// TODO action
+			if (!isFormInputCorrect()) {
+				Toast.makeText(ReminderActivity.this, R.string.message_fill_up_form, Toast.LENGTH_SHORT).show();
+				return;
+			}
+			// SharedPreferences.Editor editor =
+			// getPreferences(MODE_PRIVATE).edit();
+			// editor.commit();
 		}
 	}
 
