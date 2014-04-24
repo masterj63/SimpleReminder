@@ -8,7 +8,6 @@ import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -115,6 +114,8 @@ public class ReminderActivity extends ActionBarActivity {
 			switch (position) {
 			case INDEX_ITEM_TITLE:
 				// TODO title dialog
+				DialogFragment titleDialog = new TitlePickerFragment();
+				titleDialog.show(getFragmentManager(), "");
 				break;
 			case INDEX_ITEM_DATE:
 				DialogFragment dateDialog = new DatePickerFragment();
@@ -174,6 +175,13 @@ public class ReminderActivity extends ActionBarActivity {
 		formMinute = calendar.get(Calendar.MINUTE);
 	}
 
+	void updateTitle(String title) {
+		formTimeSet = true;
+		formTitle = title;
+
+		listAdapter.notifyDataSetChanged();
+	}
+
 	void updateDate(int year, int month, int day) {
 		formDateSet = true;
 		formYear = year;
@@ -216,9 +224,16 @@ public class ReminderActivity extends ActionBarActivity {
 			TextView footer = (TextView) rowView.findViewById(R.id.textview_footer);
 
 			switch (position) {
+			// TODO italic footer_not_set
 			case ReminderActivity.INDEX_ITEM_TITLE:
 				header.setText(R.string.label_title);
+				if (formTitle.length() == 0) {
+					footer.setText(R.string.label_footer_not_set);
+				} else {
+					footer.setText(formTitle);
+				}
 				break;
+
 			case ReminderActivity.INDEX_ITEM_DATE:
 				header.setText(R.string.label_date);
 				if (formDateSet) {
@@ -233,7 +248,6 @@ public class ReminderActivity extends ActionBarActivity {
 
 					footer.setText(label);
 				} else {
-					footer.setPaintFlags(Paint.LINEAR_TEXT_FLAG);
 					footer.setText(R.string.label_footer_not_set);
 				}
 				break;
@@ -250,7 +264,6 @@ public class ReminderActivity extends ActionBarActivity {
 
 					footer.setText(label);
 				} else {
-					footer.setPaintFlags(Paint.LINEAR_TEXT_FLAG);
 					footer.setText(R.string.label_footer_not_set);
 				}
 				break;
