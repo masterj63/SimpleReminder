@@ -8,6 +8,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 public class TitlePickerFragment extends DialogFragment {
 	private EditText titleEditText;
@@ -37,7 +38,12 @@ public class TitlePickerFragment extends DialogFragment {
 		public void onClick(DialogInterface dialog, int which) {
 			if (which == Dialog.BUTTON_POSITIVE) {
 				ReminderActivity reminderActivity = (ReminderActivity) getActivity();
-				reminderActivity.updateTitle(titleEditText.getText().toString());
+				String string = titleEditText.getText().toString().trim();
+				if (string.length() == 0) {
+					Toast.makeText(getActivity(), getString(R.string.message_empty_title), Toast.LENGTH_SHORT).show();
+				} else {
+					reminderActivity.updateTitle(string);
+				}
 			}
 		}
 
