@@ -12,10 +12,12 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -87,6 +89,9 @@ public class ReminderActivity extends ActionBarActivity {
 		listAdapter.add("");
 		lV.setAdapter(listAdapter);
 		lV.setOnItemClickListener(new OnFormItemClickListener());
+
+		Button saveButton = (Button) findViewById(R.id.button_save);
+		saveButton.setOnClickListener(new OnSaveButtonClickListener());
 	}
 
 	@Override
@@ -185,6 +190,13 @@ public class ReminderActivity extends ActionBarActivity {
 		listAdapter.notifyDataSetChanged();
 	}
 
+	private class OnSaveButtonClickListener implements OnClickListener {
+		@Override
+		public void onClick(View v) {
+			// TODO action
+		}
+	}
+
 	private class CustomAdapter extends ArrayAdapter<String> {
 		private final Context CONTEXT;
 
@@ -214,7 +226,7 @@ public class ReminderActivity extends ActionBarActivity {
 					calendar.set(Calendar.MONTH, formMonth);
 					calendar.set(Calendar.DAY_OF_MONTH, formDay);
 
-					SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+					SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy");
 					String label = format.format(calendar.getTime());
 
 					footer.setText(label);
