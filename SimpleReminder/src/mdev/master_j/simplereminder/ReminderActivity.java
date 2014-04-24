@@ -41,6 +41,14 @@ public class ReminderActivity extends ActionBarActivity {
 	private String formDescription = "";
 
 	private static final String KEY_SAVED_TIME_MS = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TIME_MS";
+
+	private static final String KEY_SAVED_YEAR = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_YEAR";
+	private static final String KEY_SAVED_MONTH = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_MONTH";
+	private static final String KEY_SAVED_DAY = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_DAY";
+
+	private static final String KEY_SAVED_HOUR = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_HOUR";
+	private static final String KEY_SAVED_MINUTE = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_MINUTE";
+
 	private static final String KEY_SAVED_TITLE = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TITLE";
 	private static final String KEY_SAVED_DESCRIPTION = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_DESCRIPTION";
 
@@ -69,17 +77,19 @@ public class ReminderActivity extends ActionBarActivity {
 			formTitle = preferences.getString(KEY_SAVED_TITLE, "");
 			formDescription = preferences.getString(KEY_SAVED_DESCRIPTION, "");
 		} else {
-			long savedTime = savedInstanceState.getLong(KEY_SAVED_TIME_MS, 0L);
-			if (savedTime != 0L) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTimeInMillis(savedTime);
-
-				updateFormSavedDateAndTime(calendar);
+			if (savedInstanceState.containsKey(KEY_SAVED_YEAR)) {
 				formDateSet = true;
+
+				formYear = savedInstanceState.getInt(KEY_SAVED_YEAR);
+				formMonth = savedInstanceState.getInt(KEY_SAVED_MONTH);
+				formDay = savedInstanceState.getInt(KEY_SAVED_DAY);
+			}
+
+			if (savedInstanceState.containsKey(KEY_SAVED_HOUR)) {
 				formTimeSet = true;
-			} else {
-				formDateSet = false;
-				formTimeSet = false;
+
+				formHour = savedInstanceState.getInt(KEY_SAVED_HOUR);
+				formMinute = savedInstanceState.getInt(KEY_SAVED_MINUTE);
 			}
 
 			formTitle = savedInstanceState.getString(KEY_SAVED_TITLE);
@@ -108,14 +118,19 @@ public class ReminderActivity extends ActionBarActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		Calendar formCalendar = getCalendarByForm();
-		if (formCalendar != null) {
-			long formTimeMillis = formCalendar.getTimeInMillis();
-
-			outState.putLong(KEY_SAVED_TIME_MS, formTimeMillis);
-			outState.putString(KEY_SAVED_TITLE, formTitle);
-			outState.putString(KEY_SAVED_DESCRIPTION, formDescription);
+		if (formDateSet) {
+			outState.putInt(KEY_SAVED_YEAR, formYear);
+			outState.putInt(KEY_SAVED_MONTH, formMonth);
+			outState.putInt(KEY_SAVED_DAY, formDay);
 		}
+
+		if (formTimeSet) {
+			outState.putInt(KEY_SAVED_HOUR, formHour);
+			outState.putInt(KEY_SAVED_MINUTE, formMinute);
+		}
+
+		outState.putString(KEY_SAVED_TITLE, formTitle);
+		outState.putString(KEY_SAVED_DESCRIPTION, formDescription);
 	}
 
 	private class OnFormItemClickListener implements OnItemClickListener {
