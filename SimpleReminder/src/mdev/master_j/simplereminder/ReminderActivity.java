@@ -8,6 +8,8 @@ import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -253,19 +255,22 @@ public class ReminderActivity extends ActionBarActivity {
 			TextView header = (TextView) rowView.findViewById(R.id.textview_header);
 			TextView footer = (TextView) rowView.findViewById(R.id.textview_footer);
 
+			int headerTextId = R.string.app_name;
+			String footerText = null;
+
 			switch (position) {
 			// TODO italic footer_not_set
 			case ReminderActivity.INDEX_ITEM_TITLE:
-				header.setText(R.string.label_title);
-				if (formTitle.length() == 0) {
-					footer.setText(R.string.label_footer_not_set);
-				} else {
-					footer.setText(formTitle);
+				headerTextId = R.string.label_title;
+
+				if (formTitle.length() > 0) {
+					footerText = formTitle;
 				}
 				break;
 
 			case ReminderActivity.INDEX_ITEM_DATE:
-				header.setText(R.string.label_date);
+				headerTextId = R.string.label_date;
+
 				if (formDateSet) {
 					Calendar calendar = Calendar.getInstance();
 
@@ -276,14 +281,13 @@ public class ReminderActivity extends ActionBarActivity {
 					SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy");
 					String label = format.format(calendar.getTime());
 
-					footer.setText(label);
-				} else {
-					footer.setText(R.string.label_footer_not_set);
+					footerText = label;
 				}
 				break;
 
 			case ReminderActivity.INDEX_ITEM_TIME:
-				header.setText(R.string.label_time);
+				headerTextId = R.string.label_time;
+
 				if (formTimeSet) {
 					Calendar calendar = Calendar.getInstance();
 
@@ -293,20 +297,29 @@ public class ReminderActivity extends ActionBarActivity {
 					SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.US);
 					String label = format.format(calendar.getTime());
 
-					footer.setText(label);
-				} else {
-					footer.setText(R.string.label_footer_not_set);
+					footerText = label;
 				}
 				break;
 
 			case ReminderActivity.INDEX_ITEM_DESCRIPTION:
-				header.setText(R.string.label_description);
-				if (formDescription.length() == 0) {
-					footer.setText(R.string.label_footer_not_set);
-				} else {
-					footer.setText(formDescription);
+				headerTextId = R.string.label_description;
+
+				if (formDescription.length() > 0) {
+					footerText = formDescription;
 				}
 				break;
+			}
+
+			if (headerTextId != R.string.app_name) {
+				header.setText(headerTextId);
+			}
+
+			if (footerText == null) {
+				footer.setText(R.string.label_footer_not_set);
+				footer.setTypeface(null, Typeface.ITALIC);
+				footer.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+			} else {
+				footer.setText(footerText);
 			}
 
 			return rowView;
