@@ -211,8 +211,8 @@ public class ReminderActivity extends ActionBarActivity {
 					Calendar calendar = Calendar.getInstance();
 
 					calendar.set(Calendar.YEAR, formYear);
-					calendar.set(Calendar.MONTH, formYear);
-					calendar.set(Calendar.DAY_OF_MONTH, formYear);
+					calendar.set(Calendar.MONTH, formMonth);
+					calendar.set(Calendar.DAY_OF_MONTH, formDay);
 
 					SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 					String label = format.format(calendar.getTime());
