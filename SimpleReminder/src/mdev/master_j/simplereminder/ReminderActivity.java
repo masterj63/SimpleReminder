@@ -113,7 +113,6 @@ public class ReminderActivity extends ActionBarActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			switch (position) {
 			case INDEX_ITEM_TITLE:
-				// TODO title dialog
 				DialogFragment titleDialog = new TitlePickerFragment();
 				titleDialog.show(getFragmentManager(), "");
 				break;
@@ -126,7 +125,8 @@ public class ReminderActivity extends ActionBarActivity {
 				timeDialog.show(getFragmentManager(), "");
 				break;
 			case INDEX_ITEM_DESCRIPTION:
-				// TODO description dialog
+				DialogFragment descriptionDialog = new DescriptionPickerDialog();
+				descriptionDialog.show(getFragmentManager(), "");
 				break;
 			}
 		}
@@ -176,8 +176,13 @@ public class ReminderActivity extends ActionBarActivity {
 	}
 
 	void updateTitle(String title) {
-		formTimeSet = true;
 		formTitle = title;
+
+		listAdapter.notifyDataSetChanged();
+	}
+
+	void updateDescription(String description) {
+		formDescription = description;
 
 		listAdapter.notifyDataSetChanged();
 	}
@@ -251,6 +256,7 @@ public class ReminderActivity extends ActionBarActivity {
 					footer.setText(R.string.label_footer_not_set);
 				}
 				break;
+
 			case ReminderActivity.INDEX_ITEM_TIME:
 				header.setText(R.string.label_time);
 				if (formTimeSet) {
@@ -267,8 +273,14 @@ public class ReminderActivity extends ActionBarActivity {
 					footer.setText(R.string.label_footer_not_set);
 				}
 				break;
+
 			case ReminderActivity.INDEX_ITEM_DESCRIPTION:
 				header.setText(R.string.label_description);
+				if (formDescription.length() == 0) {
+					footer.setText(R.string.label_footer_not_set);
+				} else {
+					footer.setText(formDescription);
+				}
 				break;
 			}
 
@@ -302,6 +314,14 @@ public class ReminderActivity extends ActionBarActivity {
 
 	int getFormMinute() {
 		return formMinute;
+	}
+
+	String getFormTitle() {
+		return formTitle;
+	}
+
+	String getFormDescription() {
+		return formDescription;
 	}
 
 }

@@ -22,6 +22,11 @@ public class TitlePickerFragment extends DialogFragment {
 				FrameLayout.LayoutParams.MATCH_PARENT);
 		titleEditText.setLayoutParams(params);
 
+		ReminderActivity reminderActivity = (ReminderActivity) getActivity();
+		String formTitle = reminderActivity.getFormTitle();
+		if (formTitle.length() > 0)
+			titleEditText.setText(formTitle);
+
 		builder.setTitle(R.string.label_dialog_title);
 		builder.setView(titleEditText);
 

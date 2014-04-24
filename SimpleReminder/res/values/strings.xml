@@ -11,6 +11,7 @@
     
     <string name="label_footer_not_set">not set yet</string>
     <string name="label_dialog_title">Title</string>
+    <string name="label_dialog_description">Description</string>
     
     <string name="message_empty_title">The title cannot be empty</string>
 
