@@ -14,5 +14,6 @@
     <string name="label_dialog_description">Description</string>
     
     <string name="message_empty_title">The title cannot be empty</string>
+    <string name="message_too_long_title">The title cannot be that long</string>
 
 </resources>

@@ -46,6 +46,9 @@ public class TitlePickerFragment extends DialogFragment {
 				String string = titleEditText.getText().toString().trim();
 				if (string.length() == 0) {
 					Toast.makeText(getActivity(), getString(R.string.message_empty_title), Toast.LENGTH_SHORT).show();
+				} else if (string.length() > getResources().getInteger(R.integer.max_length_title)) {
+					Toast.makeText(getActivity(), getString(R.string.message_too_long_title), Toast.LENGTH_SHORT)
+							.show();
 				} else {
 					reminderActivity.updateTitle(string);
 				}
