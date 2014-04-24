@@ -10,5 +10,6 @@
     <string name="button_save">Save</string>
     
     <string name="label_footer_not_set">not set yet</string>
+    <string name="label_dialog_title">Title</string>
 
 </resources>

@@ -6,7 +6,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
@@ -22,13 +21,12 @@ public class TitlePickerFragment extends DialogFragment {
 				FrameLayout.LayoutParams.MATCH_PARENT);
 		titleEditText.setLayoutParams(params);
 
-		builder.setMessage("message");
-		builder.setTitle("title");
+		builder.setTitle(R.string.label_dialog_title);
 		builder.setView(titleEditText);
 
 		OnClickListener listener = new OnButtonClickListener();
-		builder.setPositiveButton("ok", listener);
-		builder.setNegativeButton("cancel", listener);
+		builder.setPositiveButton(android.R.string.ok, listener);
+		builder.setNegativeButton(android.R.string.cancel, listener);
 
 		return builder.create();
 	}
@@ -37,16 +35,9 @@ public class TitlePickerFragment extends DialogFragment {
 
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			switch (which) {
-			case Dialog.BUTTON_NEGATIVE:
-				Log.d("mj", "-");
-				break;
-
-			case Dialog.BUTTON_POSITIVE:
-				Log.d("mj", "+");
+			if (which == Dialog.BUTTON_POSITIVE) {
 				ReminderActivity reminderActivity = (ReminderActivity) getActivity();
 				reminderActivity.updateTitle(titleEditText.getText().toString());
-				break;
 			}
 		}
 
