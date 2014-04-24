@@ -5,13 +5,17 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -112,13 +116,13 @@ public class ReminderActivity extends ActionBarActivity {
 		}
 
 		listAdapter = new CustomAdapter(this);
-		ListView lV = (ListView) findViewById(R.id.listView1);
+		ListView listView = (ListView) findViewById(R.id.listView1);
 		listAdapter.add("");
 		listAdapter.add("");
 		listAdapter.add("");
 		listAdapter.add("");
-		lV.setAdapter(listAdapter);
-		lV.setOnItemClickListener(new OnFormItemClickListener());
+		listView.setAdapter(listAdapter);
+		listView.setOnItemClickListener(new OnFormItemClickListener());
 
 		Button saveButton = (Button) findViewById(R.id.button_save);
 		saveButton.setOnClickListener(new OnSaveButtonClickListener());
@@ -272,6 +276,23 @@ public class ReminderActivity extends ActionBarActivity {
 			editor.putInt(KEY_SAVED_MINUTE, formMinute);
 
 			editor.commit();
+
+			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+			// Intent intent = new Intent(ReminderActivity.this,
+			// ReminderActivity.class);
+			Intent intent = new Intent(ReminderActivity.this, Notificator.class);
+			intent.putExtra(Notificator.EXTRA_TITLE, formTitle);
+			intent.putExtra(Notificator.EXTRA_DESCRIPTION, formDescription);
+
+			PendingIntent pendingIntent = PendingIntent.getActivity(ReminderActivity.this, 0, intent,
+					PendingIntent.FLAG_CANCEL_CURRENT);
+
+			long timeMillis = getCalendarByForm().getTimeInMillis();
+
+			// alarmManager.cancel(pendingIntent);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
+			Log.d("mj", "notificator...." + (timeMillis - Calendar.getInstance().getTimeInMillis()));
 
 			Toast.makeText(ReminderActivity.this, R.string.message_alarm_set, Toast.LENGTH_SHORT).show();
 		}
