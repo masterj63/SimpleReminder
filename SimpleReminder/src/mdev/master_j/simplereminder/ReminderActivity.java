@@ -43,7 +43,8 @@ public class ReminderActivity extends ActionBarActivity {
 	private String formTitle = "";
 	private String formDescription = "";
 
-	private static final String KEY_SAVED_TIME_MS = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TIME_MS";
+	// private static final String KEY_SAVED_TIME_MS =
+	// "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TIME_MS";
 
 	private static final String KEY_SAVED_YEAR = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_YEAR";
 	private static final String KEY_SAVED_MONTH = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_MONTH";
@@ -65,17 +66,21 @@ public class ReminderActivity extends ActionBarActivity {
 		if (savedInstanceState == null) {
 			SharedPreferences preferences = getPreferences(MODE_PRIVATE);
 
-			long savedTime = preferences.getLong(KEY_SAVED_TIME_MS, 0L);
-			if (savedTime != 0L) {
-				Calendar calendar = Calendar.getInstance();
-
-				updateFormSavedDateAndTime(calendar);
+			if (preferences.contains(KEY_SAVED_YEAR)) {
 				formDateSet = true;
 				formTimeSet = true;
-			} else {
-				formDateSet = false;
-				formTimeSet = false;
+
+				formYear = preferences.getInt(KEY_SAVED_YEAR, 0);
+				formMonth = preferences.getInt(KEY_SAVED_MONTH, 0);
+				formDay = preferences.getInt(KEY_SAVED_DAY, 0);
+
+				formHour = preferences.getInt(KEY_SAVED_HOUR, 0);
+				formMinute = preferences.getInt(KEY_SAVED_MINUTE, 0);
 			}
+			// else {
+			// formDateSet = false;
+			// formTimeSet = false;
+			// }
 
 			formTitle = preferences.getString(KEY_SAVED_TITLE, "");
 			formDescription = preferences.getString(KEY_SAVED_DESCRIPTION, "");
@@ -217,6 +222,7 @@ public class ReminderActivity extends ActionBarActivity {
 
 	void updateDate(int year, int month, int day) {
 		formDateSet = true;
+
 		formYear = year;
 		formMonth = month;
 		formDay = day;
@@ -239,9 +245,20 @@ public class ReminderActivity extends ActionBarActivity {
 				Toast.makeText(ReminderActivity.this, R.string.message_fill_up_form, Toast.LENGTH_SHORT).show();
 				return;
 			}
-			// SharedPreferences.Editor editor =
-			// getPreferences(MODE_PRIVATE).edit();
-			// editor.commit();
+
+			SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+
+			editor.putString(KEY_SAVED_TITLE, formTitle);
+			editor.putString(KEY_SAVED_DESCRIPTION, formDescription);
+
+			editor.putInt(KEY_SAVED_YEAR, formYear);
+			editor.putInt(KEY_SAVED_MONTH, formMonth);
+			editor.putInt(KEY_SAVED_DAY, formDay);
+
+			editor.putInt(KEY_SAVED_HOUR, formHour);
+			editor.putInt(KEY_SAVED_MINUTE, formMinute);
+
+			editor.commit();
 		}
 	}
 
