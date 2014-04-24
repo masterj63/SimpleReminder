@@ -59,6 +59,11 @@ public class ReminderActivity extends ActionBarActivity {
 				Calendar calendar = Calendar.getInstance();
 
 				updateFormSavedDateAndTime(calendar);
+				formDateSet = true;
+				formTimeSet = true;
+			} else {
+				formDateSet = false;
+				formTimeSet = false;
 			}
 
 			formTitle = preferences.getString(KEY_SAVED_TITLE, "");
@@ -70,6 +75,11 @@ public class ReminderActivity extends ActionBarActivity {
 				calendar.setTimeInMillis(savedTime);
 
 				updateFormSavedDateAndTime(calendar);
+				formDateSet = true;
+				formTimeSet = true;
+			} else {
+				formDateSet = false;
+				formTimeSet = false;
 			}
 
 			formTitle = savedInstanceState.getString(KEY_SAVED_TITLE);
