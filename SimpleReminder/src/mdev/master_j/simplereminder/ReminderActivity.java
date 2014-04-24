@@ -73,14 +73,19 @@ public class ReminderActivity extends ActionBarActivity {
 
 				formHour = preferences.getInt(KEY_SAVED_HOUR, 0);
 				formMinute = preferences.getInt(KEY_SAVED_MINUTE, 0);
+
+				if (isFormDateInFuture()) {
+					formTitle = preferences.getString(KEY_SAVED_TITLE, "");
+					formDescription = preferences.getString(KEY_SAVED_DESCRIPTION, "");
+				} else {
+					formDateSet = false;
+					formTimeSet = false;
+				}
 			}
 			// else {
 			// formDateSet = false;
 			// formTimeSet = false;
 			// }
-
-			formTitle = preferences.getString(KEY_SAVED_TITLE, "");
-			formDescription = preferences.getString(KEY_SAVED_DESCRIPTION, "");
 		} else {
 			if (savedInstanceState.containsKey(KEY_SAVED_YEAR)) {
 				formDateSet = true;
@@ -180,6 +185,10 @@ public class ReminderActivity extends ActionBarActivity {
 
 	private boolean isFormDateInFuture() {
 		Calendar formCalendar = getCalendarByForm();
+
+		if (formCalendar == null)
+			return false;
+
 		Calendar nowCalendar = Calendar.getInstance();
 
 		if (formCalendar.compareTo(nowCalendar) <= 0)
