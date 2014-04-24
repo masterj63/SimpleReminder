@@ -15,7 +15,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -183,6 +182,7 @@ public class ReminderActivity extends ActionBarActivity {
 		formCalendar.set(Calendar.DAY_OF_MONTH, formDay);
 		formCalendar.set(Calendar.HOUR_OF_DAY, formHour);
 		formCalendar.set(Calendar.MINUTE, formMinute);
+		formCalendar.set(Calendar.SECOND, 0);
 
 		return formCalendar;
 	}
@@ -289,10 +289,11 @@ public class ReminderActivity extends ActionBarActivity {
 					PendingIntent.FLAG_CANCEL_CURRENT);
 
 			long timeMillis = getCalendarByForm().getTimeInMillis();
+			timeMillis /= 1000;
+			timeMillis *= 1000;
 
 			// alarmManager.cancel(pendingIntent);
 			alarmManager.set(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
-			Log.d("mj", "notificator...." + (timeMillis - Calendar.getInstance().getTimeInMillis()));
 
 			Toast.makeText(ReminderActivity.this, R.string.message_alarm_set, Toast.LENGTH_SHORT).show();
 		}
