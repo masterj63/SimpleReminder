@@ -16,5 +16,7 @@
     <string name="message_empty_title">The title cannot be empty</string>
     <string name="message_too_long_title">The title cannot be that long</string>
     <string name="message_fill_up_form">Please fill up the form correctly</string>
+    
+    <string name="message_alarm_set">Alarm set successfully</string>
 
 </resources>

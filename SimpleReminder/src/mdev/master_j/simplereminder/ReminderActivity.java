@@ -178,18 +178,25 @@ public class ReminderActivity extends ActionBarActivity {
 		return formCalendar;
 	}
 
-	private boolean isFormInputCorrect() {
-		if (!formDateSet || !formTimeSet || formTitle.length() == 0) {
-			return false;
-		}
-
+	private boolean isFormDateInFuture() {
 		Calendar formCalendar = getCalendarByForm();
-
 		Calendar nowCalendar = Calendar.getInstance();
 
-		if (formCalendar.compareTo(nowCalendar) <= 0) {
+		if (formCalendar.compareTo(nowCalendar) <= 0)
 			return false;
-		}
+		else
+			return true;
+	}
+
+	private boolean isFormInputCorrect() {
+		if (!formDateSet || !formTimeSet)
+			return false;
+
+		if (formTitle.length() == 0)
+			return false;
+
+		if (!isFormDateInFuture())
+			return false;
 
 		return true;
 	}
@@ -256,6 +263,8 @@ public class ReminderActivity extends ActionBarActivity {
 			editor.putInt(KEY_SAVED_MINUTE, formMinute);
 
 			editor.commit();
+
+			Toast.makeText(ReminderActivity.this, R.string.message_alarm_set, Toast.LENGTH_SHORT).show();
 		}
 	}
 
