@@ -2,6 +2,7 @@ package mdev.master_j.simplereminder;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import android.app.DialogFragment;
 import android.content.Context;
@@ -230,7 +231,7 @@ public class ReminderActivity extends ActionBarActivity {
 					calendar.set(Calendar.HOUR_OF_DAY, formHour);
 					calendar.set(Calendar.MINUTE, formMinute);
 
-					SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+					SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.US);
 					String label = format.format(calendar.getTime());
 
 					footer.setText(label);
