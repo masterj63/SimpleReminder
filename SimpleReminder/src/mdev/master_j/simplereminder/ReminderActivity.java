@@ -43,9 +43,6 @@ public class ReminderActivity extends ActionBarActivity {
 	private String formTitle = "";
 	private String formDescription = "";
 
-	// private static final String KEY_SAVED_TIME_MS =
-	// "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TIME_MS";
-
 	private static final String KEY_SAVED_YEAR = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_YEAR";
 	private static final String KEY_SAVED_MONTH = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_MONTH";
 	private static final String KEY_SAVED_DAY = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_DAY";
@@ -283,7 +280,6 @@ public class ReminderActivity extends ActionBarActivity {
 			String footerText = null;
 
 			switch (position) {
-			// TODO italic footer_not_set
 			case ReminderActivity.INDEX_ITEM_TITLE:
 				headerTextId = R.string.label_title;
 
