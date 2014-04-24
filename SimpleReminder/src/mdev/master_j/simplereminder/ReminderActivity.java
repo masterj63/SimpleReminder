@@ -194,16 +194,16 @@ public class ReminderActivity extends ActionBarActivity {
 		return true;
 	}
 
-	private void updateFormSavedDateAndTime(Calendar calendar) {
-		formDateSet = true;
-		formTimeSet = true;
-
-		formYear = calendar.get(Calendar.YEAR);
-		formMonth = calendar.get(Calendar.MONTH);
-		formDay = calendar.get(Calendar.DAY_OF_MONTH);
-		formHour = calendar.get(Calendar.HOUR_OF_DAY);
-		formMinute = calendar.get(Calendar.MINUTE);
-	}
+	// private void updateFormSavedDateAndTime(Calendar calendar) {
+	// formDateSet = true;
+	// formTimeSet = true;
+	//
+	// formYear = calendar.get(Calendar.YEAR);
+	// formMonth = calendar.get(Calendar.MONTH);
+	// formDay = calendar.get(Calendar.DAY_OF_MONTH);
+	// formHour = calendar.get(Calendar.HOUR_OF_DAY);
+	// formMinute = calendar.get(Calendar.MINUTE);
+	// }
 
 	void updateTitle(String title) {
 		formTitle = title;
