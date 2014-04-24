@@ -7,6 +7,7 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.DatePicker;
 
 public class DatePickerFragment extends DialogFragment implements OnDateSetListener {
@@ -42,6 +43,7 @@ public class DatePickerFragment extends DialogFragment implements OnDateSetListe
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 		ReminderActivity reminderActivity = (ReminderActivity) getActivity();
+		Log.d("mj", "date got : " + year + " " + monthOfYear + " " + dayOfMonth);
 		reminderActivity.updateDate(year, monthOfYear, dayOfMonth);
 	}
 }

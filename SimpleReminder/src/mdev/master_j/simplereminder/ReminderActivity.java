@@ -1,5 +1,6 @@
 package mdev.master_j.simplereminder;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -10,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,6 +140,23 @@ public class ReminderActivity extends ActionBarActivity {
 		formCalendar.set(Calendar.HOUR_OF_DAY, formHour);
 		formCalendar.set(Calendar.MINUTE, formMinute);
 
+		{
+			long millis = formCalendar.getTimeInMillis();
+			Log.d("mj", String.format("Y=%d M=%d D=%d H=%d m=%d", formYear, formMonth, formDay, formHour, formMinute));
+			Log.d("mj", String.format("millis=%d", millis));
+
+			Calendar cal = Calendar.getInstance();
+			cal.setTimeInMillis(millis);
+			int tYe = cal.get(Calendar.YEAR);
+			int tMo = cal.get(Calendar.MONTH);
+			int tDa = cal.get(Calendar.DAY_OF_MONTH);
+			int tHo = cal.get(Calendar.HOUR_OF_DAY);
+			int tMi = cal.get(Calendar.MINUTE);
+
+			Log.d("mj", String.format("Y=%d M=%d D=%d H=%d m=%d", tYe, tMo, tDa, tHo, tMi));
+			Log.d("mj", String.format("millis=%d", cal.getTimeInMillis()));
+		}
+
 		return formCalendar;
 	}
 
@@ -211,13 +230,21 @@ public class ReminderActivity extends ActionBarActivity {
 					Calendar calendar = Calendar.getInstance();
 
 					calendar.set(Calendar.YEAR, formYear);
-					calendar.set(Calendar.MONTH, formYear);
-					calendar.set(Calendar.DAY_OF_MONTH, formYear);
+					calendar.set(Calendar.MONTH, formMonth);
+					calendar.set(Calendar.DAY_OF_MONTH, formDay);
 
-					SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-					String label = format.format(calendar.getTime());
+					// SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy",
+					// Locale.US);
+					// String label = f.format(calendar.getTime());
 
-					footer.setText(label);
+					// footer.setText(label);
+
+					// footer.setText(String.format("%d.%d.%d", formDay,
+					// formMonth, formYear));
+
+					DateFormat frm = DateFormat.getDateInstance();
+					// footer.setText(frm.format(calendar.getTime()));
+					footer.setText(calendar.toString());
 				} else {
 					footer.setPaintFlags(Paint.LINEAR_TEXT_FLAG);
 					footer.setText(R.string.label_footer_not_set);
