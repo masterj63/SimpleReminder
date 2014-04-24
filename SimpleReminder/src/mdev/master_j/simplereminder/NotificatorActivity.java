@@ -9,9 +9,9 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-public class Notificator extends Activity {
-	static final String EXTRA_TITLE = "mdev.master_j.simplereminder.Notificator.EXTRA_TITLE";
-	static final String EXTRA_DESCRIPTION = "mdev.master_j.simplereminder.Notificator.EXTRA_DESCRIPTION";
+public class NotificatorActivity extends Activity {
+	static final String EXTRA_TITLE = "mdev.master_j.simplereminder.NotificatorActivity.EXTRA_TITLE";
+	static final String EXTRA_DESCRIPTION = "mdev.master_j.simplereminder.NotificatorActivity.EXTRA_DESCRIPTION";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +33,11 @@ public class Notificator extends Activity {
 		builder.setContentInfo(title);
 		builder.setOngoing(false);
 		builder.setContentIntent(pendingIntent);
+		builder.setAutoCancel(true);
 
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(0, builder.build());
+
+		finish();
 	}
 }

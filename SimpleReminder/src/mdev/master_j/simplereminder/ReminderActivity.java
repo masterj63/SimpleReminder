@@ -281,9 +281,9 @@ public class ReminderActivity extends ActionBarActivity {
 
 			// Intent intent = new Intent(ReminderActivity.this,
 			// ReminderActivity.class);
-			Intent intent = new Intent(ReminderActivity.this, Notificator.class);
-			intent.putExtra(Notificator.EXTRA_TITLE, formTitle);
-			intent.putExtra(Notificator.EXTRA_DESCRIPTION, formDescription);
+			Intent intent = new Intent(ReminderActivity.this, NotificatorActivity.class);
+			intent.putExtra(NotificatorActivity.EXTRA_TITLE, formTitle);
+			intent.putExtra(NotificatorActivity.EXTRA_DESCRIPTION, formDescription);
 
 			PendingIntent pendingIntent = PendingIntent.getActivity(ReminderActivity.this, 0, intent,
 					PendingIntent.FLAG_CANCEL_CURRENT);
