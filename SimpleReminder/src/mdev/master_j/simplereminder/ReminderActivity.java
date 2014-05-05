@@ -29,6 +29,8 @@ import android.widget.Toast;
 
 public class ReminderActivity extends ActionBarActivity {
 
+	static final String NAME_PREFERENCES = "mdev.master_j.simplereminder.NAME_PREFERENCES";
+
 	static final int INDEX_ITEM_TITLE = 0;
 	static final int INDEX_ITEM_DATE = 1;
 	static final int INDEX_ITEM_TIME = 2;
@@ -64,7 +66,7 @@ public class ReminderActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main);
 
 		if (savedInstanceState == null) {
-			SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+			SharedPreferences preferences = getSharedPreferences(NAME_PREFERENCES, MODE_PRIVATE);
 
 			if (preferences.contains(KEY_SAVED_YEAR)) {
 				formDateSet = true;
@@ -262,41 +264,43 @@ public class ReminderActivity extends ActionBarActivity {
 				Toast.makeText(ReminderActivity.this, R.string.message_fill_up_form, Toast.LENGTH_SHORT).show();
 				return;
 			}
-
-			SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-
-			editor.putString(KEY_SAVED_TITLE, formTitle);
-			editor.putString(KEY_SAVED_DESCRIPTION, formDescription);
-
-			editor.putInt(KEY_SAVED_YEAR, formYear);
-			editor.putInt(KEY_SAVED_MONTH, formMonth);
-			editor.putInt(KEY_SAVED_DAY, formDay);
-
-			editor.putInt(KEY_SAVED_HOUR, formHour);
-			editor.putInt(KEY_SAVED_MINUTE, formMinute);
-
-			editor.commit();
-
-			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-			// Intent intent = new Intent(ReminderActivity.this,
-			// ReminderActivity.class);
-			Intent intent = new Intent(ReminderActivity.this, NotificatorActivity.class);
-			intent.putExtra(NotificatorActivity.EXTRA_TITLE, formTitle);
-			intent.putExtra(NotificatorActivity.EXTRA_DESCRIPTION, formDescription);
-
-			PendingIntent pendingIntent = PendingIntent.getActivity(ReminderActivity.this, 0, intent,
-					PendingIntent.FLAG_CANCEL_CURRENT);
-
-			long timeMillis = getCalendarByForm().getTimeInMillis();
-			timeMillis /= 1000;
-			timeMillis *= 1000;
-
-			// alarmManager.cancel(pendingIntent);
-			alarmManager.set(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
-
+			saveFormAndSetAlarm(formTitle, formDescription, formYear, formMonth, formDay, formHour, formMinute);
 			Toast.makeText(ReminderActivity.this, R.string.message_alarm_set, Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	void saveFormAndSetAlarm(String title, String description, int year, int month, int day, int hour, int minute) {
+		SharedPreferences.Editor editor = getSharedPreferences(NAME_PREFERENCES, MODE_PRIVATE).edit();
+
+		editor.putString(KEY_SAVED_TITLE, title);
+		editor.putString(KEY_SAVED_DESCRIPTION, description);
+
+		editor.putInt(KEY_SAVED_YEAR, year);
+		editor.putInt(KEY_SAVED_MONTH, month);
+		editor.putInt(KEY_SAVED_DAY, day);
+
+		editor.putInt(KEY_SAVED_HOUR, hour);
+		editor.putInt(KEY_SAVED_MINUTE, minute);
+
+		editor.commit();
+
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+		// Intent intent = new Intent(ReminderActivity.this,
+		// ReminderActivity.class);
+		Intent intent = new Intent(ReminderActivity.this, NotificatorActivity.class);
+		intent.putExtra(NotificatorActivity.EXTRA_TITLE, title);
+		intent.putExtra(NotificatorActivity.EXTRA_DESCRIPTION, description);
+
+		PendingIntent pendingIntent = PendingIntent.getActivity(ReminderActivity.this, 0, intent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+
+		long timeMillis = getCalendarByForm().getTimeInMillis();
+		timeMillis /= 1000;
+		timeMillis *= 1000;
+
+		// alarmManager.cancel(pendingIntent);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
 	}
 
 	private class CustomAdapter extends ArrayAdapter<String> {
