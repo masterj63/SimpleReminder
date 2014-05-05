@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.DialogFragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +13,7 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -152,19 +152,19 @@ public class ReminderActivity extends ActionBarActivity {
 			switch (position) {
 			case INDEX_ITEM_TITLE:
 				DialogFragment titleDialog = new TitlePickerFragment();
-				titleDialog.show(getFragmentManager(), "");
+				titleDialog.show(getSupportFragmentManager(), "");
 				break;
 			case INDEX_ITEM_DATE:
 				DialogFragment dateDialog = new DatePickerFragment();
-				dateDialog.show(getFragmentManager(), "");
+				dateDialog.show(getSupportFragmentManager(), "");
 				break;
 			case INDEX_ITEM_TIME:
 				DialogFragment timeDialog = new TimePickerFragment();
-				timeDialog.show(getFragmentManager(), "");
+				timeDialog.show(getSupportFragmentManager(), "");
 				break;
 			case INDEX_ITEM_DESCRIPTION:
 				DialogFragment descriptionDialog = new DescriptionPickerDialog();
-				descriptionDialog.show(getFragmentManager(), "");
+				descriptionDialog.show(getSupportFragmentManager(), "");
 				break;
 			}
 		}

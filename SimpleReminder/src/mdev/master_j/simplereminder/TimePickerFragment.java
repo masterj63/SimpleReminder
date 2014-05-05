@@ -3,10 +3,10 @@ package mdev.master_j.simplereminder;
 import java.util.Calendar;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.widget.TimePicker;
 
 public class TimePickerFragment extends DialogFragment implements OnTimeSetListener {

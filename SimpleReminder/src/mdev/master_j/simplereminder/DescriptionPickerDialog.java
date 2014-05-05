@@ -2,14 +2,13 @@ package mdev.master_j.simplereminder;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-public class DescriptionPickerDialog extends DialogFragment {
+public class DescriptionPickerDialog extends android.support.v4.app.DialogFragment {
 	private EditText descriptionEditText;
 
 	@Override
@@ -48,5 +47,4 @@ public class DescriptionPickerDialog extends DialogFragment {
 		}
 
 	}
-
 }
