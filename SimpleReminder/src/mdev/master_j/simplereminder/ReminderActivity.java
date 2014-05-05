@@ -172,25 +172,25 @@ public class ReminderActivity extends ActionBarActivity {
 		}
 	}
 
-	private Calendar getCalendarByForm() {
+	private Calendar getCalendar(int year, int month, int day, int hour, int minute) {
 		// if (!formDateSet || !formTimeSet) {
 		// return null;
 		// }
 
 		Calendar formCalendar = Calendar.getInstance();
 
-		formCalendar.set(Calendar.YEAR, formYear);
-		formCalendar.set(Calendar.MONTH, formMonth);
-		formCalendar.set(Calendar.DAY_OF_MONTH, formDay);
-		formCalendar.set(Calendar.HOUR_OF_DAY, formHour);
-		formCalendar.set(Calendar.MINUTE, formMinute);
+		formCalendar.set(Calendar.YEAR, year);
+		formCalendar.set(Calendar.MONTH, month);
+		formCalendar.set(Calendar.DAY_OF_MONTH, day);
+		formCalendar.set(Calendar.HOUR_OF_DAY, hour);
+		formCalendar.set(Calendar.MINUTE, minute);
 		formCalendar.set(Calendar.SECOND, 0);
 
 		return formCalendar;
 	}
 
 	private boolean isFormDateInFuture() {
-		Calendar formCalendar = getCalendarByForm();
+		Calendar formCalendar = getCalendar(formYear, formMonth, formDay, formHour, formMinute);
 
 		if (formCalendar == null)
 			return false;
@@ -295,7 +295,7 @@ public class ReminderActivity extends ActionBarActivity {
 		PendingIntent pendingIntent = PendingIntent.getActivity(ReminderActivity.this, 0, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		long timeMillis = getCalendarByForm().getTimeInMillis();
+		long timeMillis = getCalendar(formYear, formMonth, formDay, formHour, formMinute).getTimeInMillis();
 		timeMillis /= 1000;
 		timeMillis *= 1000;
 
