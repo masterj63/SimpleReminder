@@ -48,24 +48,24 @@ public class ReminderActivity extends ActionBarActivity {
 	private String formTitle = "";
 	private String formDescription = "";
 
-	private static final String KEY_SAVED_YEAR = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_YEAR";
-	private static final String KEY_SAVED_MONTH = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_MONTH";
-	private static final String KEY_SAVED_DAY = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_DAY";
+	static final String KEY_SAVED_YEAR = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_YEAR";
+	static final String KEY_SAVED_MONTH = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_MONTH";
+	static final String KEY_SAVED_DAY = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_DAY";
 
-	private static final String KEY_SAVED_HOUR = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_HOUR";
-	private static final String KEY_SAVED_MINUTE = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_MINUTE";
+	static final String KEY_SAVED_HOUR = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_HOUR";
+	static final String KEY_SAVED_MINUTE = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_MINUTE";
 
-	private static final String KEY_SAVED_TITLE = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TITLE";
-	private static final String KEY_SAVED_DESCRIPTION = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_DESCRIPTION";
+	static final String KEY_SAVED_TITLE = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TITLE";
+	static final String KEY_SAVED_DESCRIPTION = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_DESCRIPTION";
 
 	private CustomAdapter listAdapter;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onCreate(Bundle dInstanceState) {
+		super.onCreate(dInstanceState);
 		setContentView(R.layout.activity_main);
 
-		if (savedInstanceState == null) {
+		if (dInstanceState == null) {
 			SharedPreferences preferences = getSharedPreferences(NAME_PREFERENCES, MODE_PRIVATE);
 
 			if (preferences.contains(KEY_SAVED_YEAR)) {
@@ -79,7 +79,7 @@ public class ReminderActivity extends ActionBarActivity {
 				formHour = preferences.getInt(KEY_SAVED_HOUR, 0);
 				formMinute = preferences.getInt(KEY_SAVED_MINUTE, 0);
 
-				if (isFormDateInFuture()) {
+				if (isDateInFuture(formYear, formMonth, formDay, formHour, formMinute)) {
 					formTitle = preferences.getString(KEY_SAVED_TITLE, "");
 					formDescription = preferences.getString(KEY_SAVED_DESCRIPTION, "");
 				} else {
@@ -92,26 +92,26 @@ public class ReminderActivity extends ActionBarActivity {
 			// formTimeSet = false;
 			// }
 		} else {
-			if (savedInstanceState.containsKey(KEY_SAVED_YEAR)) {
+			if (dInstanceState.containsKey(KEY_SAVED_YEAR)) {
 				formDateSet = true;
 
-				formYear = savedInstanceState.getInt(KEY_SAVED_YEAR);
-				formMonth = savedInstanceState.getInt(KEY_SAVED_MONTH);
-				formDay = savedInstanceState.getInt(KEY_SAVED_DAY);
+				formYear = dInstanceState.getInt(KEY_SAVED_YEAR);
+				formMonth = dInstanceState.getInt(KEY_SAVED_MONTH);
+				formDay = dInstanceState.getInt(KEY_SAVED_DAY);
 			}
 
-			if (savedInstanceState.containsKey(KEY_SAVED_HOUR)) {
+			if (dInstanceState.containsKey(KEY_SAVED_HOUR)) {
 				formTimeSet = true;
 
-				formHour = savedInstanceState.getInt(KEY_SAVED_HOUR);
-				formMinute = savedInstanceState.getInt(KEY_SAVED_MINUTE);
+				formHour = dInstanceState.getInt(KEY_SAVED_HOUR);
+				formMinute = dInstanceState.getInt(KEY_SAVED_MINUTE);
 			}
 
-			formTitle = savedInstanceState.getString(KEY_SAVED_TITLE);
+			formTitle = dInstanceState.getString(KEY_SAVED_TITLE);
 			if (formTitle == null)
 				formTitle = "";
 
-			formDescription = savedInstanceState.getString(KEY_SAVED_DESCRIPTION);
+			formDescription = dInstanceState.getString(KEY_SAVED_DESCRIPTION);
 			if (formDescription == null)
 				formDescription = "";
 		}
@@ -125,8 +125,8 @@ public class ReminderActivity extends ActionBarActivity {
 		listView.setAdapter(listAdapter);
 		listView.setOnItemClickListener(new OnFormItemClickListener());
 
-		Button saveButton = (Button) findViewById(R.id.button_save);
-		saveButton.setOnClickListener(new OnSaveButtonClickListener());
+		Button Button = (Button) findViewById(R.id.button_save);
+		Button.setOnClickListener(new OnSaveButtonClickListener());
 	}
 
 	@Override
@@ -172,7 +172,7 @@ public class ReminderActivity extends ActionBarActivity {
 		}
 	}
 
-	private Calendar getCalendar(int year, int month, int day, int hour, int minute) {
+	static Calendar getCalendar(int year, int month, int day, int hour, int minute) {
 		// if (!formDateSet || !formTimeSet) {
 		// return null;
 		// }
@@ -189,8 +189,8 @@ public class ReminderActivity extends ActionBarActivity {
 		return formCalendar;
 	}
 
-	private boolean isFormDateInFuture() {
-		Calendar formCalendar = getCalendar(formYear, formMonth, formDay, formHour, formMinute);
+	static boolean isDateInFuture(int year, int month, int day, int hour, int minute) {
+		Calendar formCalendar = getCalendar(year, month, day, hour, minute);
 
 		if (formCalendar == null)
 			return false;
@@ -210,7 +210,7 @@ public class ReminderActivity extends ActionBarActivity {
 		if (formTitle.length() == 0)
 			return false;
 
-		if (!isFormDateInFuture())
+		if (!isDateInFuture(formYear, formMonth, formDay, formHour, formMinute))
 			return false;
 
 		return true;
@@ -264,13 +264,15 @@ public class ReminderActivity extends ActionBarActivity {
 				Toast.makeText(ReminderActivity.this, R.string.message_fill_up_form, Toast.LENGTH_SHORT).show();
 				return;
 			}
-			saveFormAndSetAlarm(formTitle, formDescription, formYear, formMonth, formDay, formHour, formMinute);
+			saveDateAndSetAlarm(ReminderActivity.this, formTitle, formDescription, formYear, formMonth, formDay,
+					formHour, formMinute);
 			Toast.makeText(ReminderActivity.this, R.string.message_alarm_set, Toast.LENGTH_SHORT).show();
 		}
 	}
 
-	void saveFormAndSetAlarm(String title, String description, int year, int month, int day, int hour, int minute) {
-		SharedPreferences.Editor editor = getSharedPreferences(NAME_PREFERENCES, MODE_PRIVATE).edit();
+	static void saveDateAndSetAlarm(Context context, String title, String description, int year, int month, int day,
+			int hour, int minute) {
+		SharedPreferences.Editor editor = context.getSharedPreferences(NAME_PREFERENCES, MODE_PRIVATE).edit();
 
 		editor.putString(KEY_SAVED_TITLE, title);
 		editor.putString(KEY_SAVED_DESCRIPTION, description);
@@ -284,18 +286,17 @@ public class ReminderActivity extends ActionBarActivity {
 
 		editor.commit();
 
-		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+		AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
 
 		// Intent intent = new Intent(ReminderActivity.this,
 		// ReminderActivity.class);
-		Intent intent = new Intent(ReminderActivity.this, NotificatorActivity.class);
+		Intent intent = new Intent(context, NotificatorActivity.class);
 		intent.putExtra(NotificatorActivity.EXTRA_TITLE, title);
 		intent.putExtra(NotificatorActivity.EXTRA_DESCRIPTION, description);
 
-		PendingIntent pendingIntent = PendingIntent.getActivity(ReminderActivity.this, 0, intent,
-				PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-		long timeMillis = getCalendar(formYear, formMonth, formDay, formHour, formMinute).getTimeInMillis();
+		long timeMillis = getCalendar(year, month, day, hour, minute).getTimeInMillis();
 		timeMillis /= 1000;
 		timeMillis *= 1000;
 
