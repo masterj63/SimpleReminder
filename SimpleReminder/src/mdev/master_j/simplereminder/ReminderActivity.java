@@ -173,9 +173,9 @@ public class ReminderActivity extends ActionBarActivity {
 	}
 
 	private Calendar getCalendarByForm() {
-		if (!formDateSet || !formTimeSet) {
-			return null;
-		}
+		// if (!formDateSet || !formTimeSet) {
+		// return null;
+		// }
 
 		Calendar formCalendar = Calendar.getInstance();
 
