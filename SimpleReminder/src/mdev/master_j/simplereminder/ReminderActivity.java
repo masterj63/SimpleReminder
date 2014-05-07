@@ -290,11 +290,13 @@ public class ReminderActivity extends ActionBarActivity {
 
 		// Intent intent = new Intent(ReminderActivity.this,
 		// ReminderActivity.class);
-		Intent intent = new Intent(context, NotificatorActivity.class);
-		intent.putExtra(NotificatorActivity.EXTRA_TITLE, title);
-		intent.putExtra(NotificatorActivity.EXTRA_DESCRIPTION, description);
+		Intent intent = new Intent(context, NotificatorService.class);
+		intent.putExtra(NotificatorService.EXTRA_TITLE, title);
+		intent.putExtra(NotificatorService.EXTRA_DESCRIPTION, description);
 
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+		// intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		long timeMillis = getCalendar(year, month, day, hour, minute).getTimeInMillis();
 		timeMillis /= 1000;

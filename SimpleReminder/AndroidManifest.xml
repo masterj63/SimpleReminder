@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity 
-            android:name="mdev.master_j.simplereminder.NotificatorActivity" />
+            android:name="mdev.master_j.simplereminder.NotificatorService" />
         <receiver
             android:name="mdev.master_j.simplereminder.BootReceiver"
             android:enabled="true"
@@ -36,6 +36,10 @@
             </intent-filter>
             
         </receiver>
+        <service
+            android:name="mdev.master_j.simplereminder.NotificatorService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

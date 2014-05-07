@@ -1,26 +1,26 @@
 package mdev.master_j.simplereminder;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.support.v4.app.NotificationCompat;
 
-public class NotificatorActivity extends Activity {
+public class NotificatorService extends Service {
 	static final String EXTRA_TITLE = "mdev.master_j.simplereminder.NotificatorActivity.EXTRA_TITLE";
 	static final String EXTRA_DESCRIPTION = "mdev.master_j.simplereminder.NotificatorActivity.EXTRA_DESCRIPTION";
 
-	@SuppressLint("Wakelock")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public IBinder onBind(Intent intent) {
+		return null;
+	}
 
-		Intent starterIntent = getIntent();
+	@Override
+	public int onStartCommand(Intent starterIntent, int flags, int startId) {
 		String title = starterIntent.getStringExtra(EXTRA_TITLE);
 		String description = starterIntent.getStringExtra(EXTRA_DESCRIPTION);
 
@@ -44,6 +44,6 @@ public class NotificatorActivity extends Activity {
 				"");
 		wakeLock.acquire(5500);
 
-		finish();
+		return super.onStartCommand(intent, flags, startId);
 	}
 }
