@@ -1,5 +1,6 @@
 package mdev.master_j.simplereminder;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,6 +15,7 @@ public class NotificatorActivity extends Activity {
 	static final String EXTRA_TITLE = "mdev.master_j.simplereminder.NotificatorActivity.EXTRA_TITLE";
 	static final String EXTRA_DESCRIPTION = "mdev.master_j.simplereminder.NotificatorActivity.EXTRA_DESCRIPTION";
 
+	@SuppressLint("Wakelock")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,9 +38,11 @@ public class NotificatorActivity extends Activity {
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(0, builder.build());
 
-		PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-		WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.FULL_WAKE_LOCK, "");
-		wl.acquire(5500);
+		PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+		@SuppressWarnings("deprecation")
+		WakeLock wakeLock = powerManager.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.FULL_WAKE_LOCK,
+				"");
+		wakeLock.acquire(5500);
 
 		finish();
 	}
