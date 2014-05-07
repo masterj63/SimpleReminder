@@ -1,5 +1,6 @@
 package mdev.master_j.simplereminder;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -19,6 +20,7 @@ public class NotificatorService extends Service {
 		return null;
 	}
 
+	@SuppressLint("Wakelock")
 	@Override
 	public int onStartCommand(Intent starterIntent, int flags, int startId) {
 		String title = starterIntent.getStringExtra(EXTRA_TITLE);
