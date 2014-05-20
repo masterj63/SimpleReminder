@@ -45,7 +45,7 @@ public class NotificatorService extends Service {
 		WakeLock wakeLock = powerManager.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.FULL_WAKE_LOCK,
 				"");
 		wakeLock.acquire(5500);
-
+		stopSelf();
 		return super.onStartCommand(intent, flags, startId);
 	}
 }

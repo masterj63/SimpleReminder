@@ -29,43 +29,19 @@ import android.widget.Toast;
 
 public class ReminderActivity extends ActionBarActivity {
 
-	static final String NAME_PREFERENCES = "mdev.master_j.simplereminder.NAME_PREFERENCES";
-
-	static final int INDEX_ITEM_TITLE = 0;
+	private static final int INDEX_ITEM_TITLE = 0;
 	static final int INDEX_ITEM_DATE = 1;
 	static final int INDEX_ITEM_TIME = 2;
 	static final int INDEX_ITEM_DESCRIPTION = 3;
 
-	private boolean formDateSet = false;
-	private int formYear;
-	private int formMonth;
-	private int formDay;
-
-	private boolean formTimeSet = false;
-	private int formHour;
-	private int formMinute;
-
-	private String formTitle = "";
-	private String formDescription = "";
-
-	static final String KEY_SAVED_YEAR = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_YEAR";
-	static final String KEY_SAVED_MONTH = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_MONTH";
-	static final String KEY_SAVED_DAY = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_DAY";
-
-	static final String KEY_SAVED_HOUR = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_HOUR";
-	static final String KEY_SAVED_MINUTE = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_MINUTE";
-
-	static final String KEY_SAVED_TITLE = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_TITLE";
-	static final String KEY_SAVED_DESCRIPTION = "mdev.master_j.simplereminder.ReminderActivity.KEY_SAVED_DESCRIPTION";
-
 	private CustomAdapter listAdapter;
 
 	@Override
-	protected void onCreate(Bundle dInstanceState) {
-		super.onCreate(dInstanceState);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		if (dInstanceState == null) {
+		if (savedInstanceState == null) {
 			SharedPreferences preferences = getSharedPreferences(NAME_PREFERENCES, MODE_PRIVATE);
 
 			if (preferences.contains(KEY_SAVED_YEAR)) {
@@ -92,26 +68,26 @@ public class ReminderActivity extends ActionBarActivity {
 			// formTimeSet = false;
 			// }
 		} else {
-			if (dInstanceState.containsKey(KEY_SAVED_YEAR)) {
+			if (savedInstanceState.containsKey(KEY_SAVED_YEAR)) {
 				formDateSet = true;
 
-				formYear = dInstanceState.getInt(KEY_SAVED_YEAR);
-				formMonth = dInstanceState.getInt(KEY_SAVED_MONTH);
-				formDay = dInstanceState.getInt(KEY_SAVED_DAY);
+				formYear = savedInstanceState.getInt(KEY_SAVED_YEAR);
+				formMonth = savedInstanceState.getInt(KEY_SAVED_MONTH);
+				formDay = savedInstanceState.getInt(KEY_SAVED_DAY);
 			}
 
-			if (dInstanceState.containsKey(KEY_SAVED_HOUR)) {
+			if (savedInstanceState.containsKey(KEY_SAVED_HOUR)) {
 				formTimeSet = true;
 
-				formHour = dInstanceState.getInt(KEY_SAVED_HOUR);
-				formMinute = dInstanceState.getInt(KEY_SAVED_MINUTE);
+				formHour = savedInstanceState.getInt(KEY_SAVED_HOUR);
+				formMinute = savedInstanceState.getInt(KEY_SAVED_MINUTE);
 			}
 
-			formTitle = dInstanceState.getString(KEY_SAVED_TITLE);
+			formTitle = savedInstanceState.getString(KEY_SAVED_TITLE);
 			if (formTitle == null)
 				formTitle = "";
 
-			formDescription = dInstanceState.getString(KEY_SAVED_DESCRIPTION);
+			formDescription = savedInstanceState.getString(KEY_SAVED_DESCRIPTION);
 			if (formDescription == null)
 				formDescription = "";
 		}
@@ -170,23 +146,6 @@ public class ReminderActivity extends ActionBarActivity {
 				break;
 			}
 		}
-	}
-
-	static Calendar getCalendar(int year, int month, int day, int hour, int minute) {
-		// if (!formDateSet || !formTimeSet) {
-		// return null;
-		// }
-
-		Calendar formCalendar = Calendar.getInstance();
-
-		formCalendar.set(Calendar.YEAR, year);
-		formCalendar.set(Calendar.MONTH, month);
-		formCalendar.set(Calendar.DAY_OF_MONTH, day);
-		formCalendar.set(Calendar.HOUR_OF_DAY, hour);
-		formCalendar.set(Calendar.MINUTE, minute);
-		formCalendar.set(Calendar.SECOND, 0);
-
-		return formCalendar;
 	}
 
 	static boolean isDateInFuture(int year, int month, int day, int hour, int minute) {
@@ -319,6 +278,8 @@ public class ReminderActivity extends ActionBarActivity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) CONTEXT.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View rowView = inflater.inflate(R.layout.list_item, parent, false);
+
+			convertView.getTag();
 
 			TextView header = (TextView) rowView.findViewById(R.id.textview_header);
 			TextView footer = (TextView) rowView.findViewById(R.id.textview_footer);
